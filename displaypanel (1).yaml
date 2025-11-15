@@ -1,0 +1,440 @@
+esphome:
+  name: displaypanel
+  friendly_name: DisplayPanel
+  platformio_options:
+     build_flags: "-DBOARD_HAS_PSRAM"
+     board_build.esp-idf.memory_type: qio_opi
+     board_build.flash_mode: dio
+
+esp32:
+  board: esp32-s3-devkitc-1
+  framework:
+    type: esp-idf
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "GWjUy9aC7pYstNSnXQ+q8SoPLY17wleXrwE3q7kA1Mg="
+
+ota:
+  - platform: esphome
+    password: "1885b7bea19c62915805672fc7e48e38"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  reboot_timeout: 1min
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Displaypanel Fallback Hotspot"
+    password: "4l4P94y6JP1O"
+
+captive_portal:
+
+font:
+  - file: '/config/esphome/font/inter-regular.ttf' #'gfont://Inter_18pt-Medium.ttf'
+    id: myFont 
+    size: 30
+  - file: '/config/esphome/font/inter-regular.ttf' #'gfont://Inter_18pt-Medium.ttf'
+    id: myFont40 
+    size: 40
+  - file: '/config/esphome/font/inter-regular.ttf' #'gfont://Inter_18pt-Medium.ttf'
+    id: myFont50 
+    size: 50
+  - file: '/config/esphome/font/inter-regular.ttf' #'gfont://Inter_18pt-Medium.ttf'
+    id: myFont60 
+    size: 60
+  - file: '/config/esphome/font/inter-regular.ttf' #'gfont://Inter_18pt-Medium.ttf'
+    id: myFont90 
+    size: 90
+  - file: '/config/esphome/font/materialdesignicons-webfont.ttf'
+    id: icon_font_20
+    size: 20
+    glyphs:
+      - "\U000F0590" # weather-cloudy - Nuageux
+      - "\U000F0591" # weather-fog - Brouillard
+      - "\U000F0592" # weather-hail - Grele      
+      - "\U000F0593" # weather-lightning - Orage
+      - "\U000F0594" # weather-clear-night - Nuit claire
+      - "\U000F0595" # weather-partly-cloudy - Partiellement nuageux
+      - "\U000F0596" # weather-pouring - Pluie forte
+      - "\U000F0597" # weather-rainy - Pluie
+      - "\U000F0598" # weather-snowy - Neige
+      - "\U000F0599" # weather-sunny - Soleil
+      - "\U000F0F30" # weather-hazy - brume
+      - "\U000F0F31" # weather-night-partly-cloudy - Nuit partiellement nuageuse
+      - "\U000F0F32" # weather-partly-lightning - Orage partiel
+      - "\U000F0F33" # weather-partly-rainy - Pluie partielle
+      - "\U000F0F34" # weather-partly-snowy - Neige partielle
+      - "\U000F0F35" # weather-partly-snowy-rainy -Neige pluie partielle
+      - "\U000F0F36" # weather-snowy-heavy - Neige forte
+      - "\U000F059D" # weather-windy - Vent
+      - "\U000F067E" # weather-lightning-rainy - Orage pluie
+      - "\U000F059E" # weather-windy-variant - Vent variante
+      - "\U000F0F2F" # weather-exceptional - Exceptionnel
+      - "\U000F058C" # water
+      - "\U000F050F" # thermometer
+      - "\U000F1442" # clock
+      - "\U000F058E" # humidity
+      - "\U000F059C" # Sunrise
+      - "\U000F059B" # Sunset
+      - "\U000F12A3" # battery-high
+      - "\U000F12A2" # battery-medium
+      - "\U000F12A1" # battery-low
+
+  - file: '/config/esphome/font/materialdesignicons-webfont.ttf'
+    id: icon_font_70
+    size: 70
+    glyphs:
+      - "\U000F0590" # weather-cloudy - Nuageux
+      - "\U000F0591" # weather-fog - Brouillard
+      - "\U000F0592" # weather-hail - Grele      
+      - "\U000F0593" # weather-lightning - Orage
+      - "\U000F0594" # weather-clear-night - Nuit claire
+      - "\U000F0595" # weather-partly-cloudy - Partiellement nuageux
+      - "\U000F0596" # weather-pouring - Pluie forte
+      - "\U000F0597" # weather-rainy - Pluie
+      - "\U000F0598" # weather-snowy - Neige
+      - "\U000F0599" # weather-sunny - Soleil
+      - "\U000F0F30" # weather-hazy - brume
+      - "\U000F0F31" # weather-night-partly-cloudy - Nuit partiellement nuageuse
+      - "\U000F0F32" # weather-partly-lightning - Orage partiel
+      - "\U000F0F33" # weather-partly-rainy - Pluie partielle
+      - "\U000F0F34" # weather-partly-snowy - Neige partielle
+      - "\U000F0F35" # weather-partly-snowy-rainy -Neige pluie partielle
+      - "\U000F0F36" # weather-snowy-heavy - Neige forte
+      - "\U000F059D" # weather-windy - Vent
+      - "\U000F067E" # weather-lightning-rainy - Orage pluie
+      - "\U000F059E" # weather-windy-variant - Vent variante
+      - "\U000F0F2F" # weather-exceptional - Exceptionnel
+      - "\U000F058C" # water
+      - "\U000F050F" # thermometer
+      - "\U000F1442" # clock
+      - "\U000F058E" # humidity
+      - "\U000F12A3" # battery-high
+      - "\U000F12A2" # battery-medium
+      - "\U000F12A1" # battery-low
+
+color:
+  - id: red
+    hex: FF0000
+  - id: green
+    hex: 00FF00
+  - id: blue
+    hex: 0000FF
+  - id: sky_blue
+    hex: 3FA7F3
+  - id: yellow
+    hex: FFFF00
+  - id: white
+    hex: F10101
+  - id: background
+    hex: F7EBF7
+  - id: grey
+    hex: 313131
+  - id: orange
+    hex: FF8C00 
+
+psram:
+  mode: octal
+  speed: 80MHz
+
+i2c:
+  sda: 19
+  scl: 20
+  frequency: 400000
+  id: i2c_bus
+
+output:
+  - platform: ledc
+    pin: 2
+    frequency: 1220
+    id: gpio_backlight_pwm
+
+light:
+  - platform: monochromatic 
+    output: gpio_backlight_pwm
+    name: ${devicename} Display Backlight
+    id: back_light
+    restore_mode: ALWAYS_ON
+
+time:
+  - platform: homeassistant
+    id: currenttime
+    timezone: Europe/London
+    
+touchscreen:
+  platform: gt911
+  id: touch_gt911
+  address: 0x5D
+  # Remove the old on_touch action or modify if needed for new interactions
+  # on_touch:
+  #   then:
+  #     - lambda: |-
+  #         // Example: Log touch coordinates if debugging
+  #         // ESP_LOGD("touch", "Touch at x=%d, y=%d", x, y);
+
+
+#State is the forecast
+
+text_sensor:
+  - platform: homeassistant
+    entity_id: weather.home
+    id: myWeather
+    internal: true
+
+  - platform: homeassistant
+    entity_id: weather.forecast_home
+    id: myTemperature
+    attribute: "temperature"
+    internal: true
+
+  - platform: homeassistant
+    entity_id: weather.forecast_home
+    id: myHumidity
+    attribute: "humidity"
+    internal: true
+
+  - platform: homeassistant
+    entity_id: weather.forecast_home
+    id: myWindBearing
+    attribute: "wind_bearing"
+    internal: true
+
+  - platform: homeassistant
+    entity_id: weather.forecast_home
+    id: myWindspeed
+    attribute: "wind_speed"
+    internal: true
+
+  - platform: homeassistant
+    entity_id: weather.forecast_home
+    id: myDewpoint
+    attribute: "dew_point"
+    internal: true
+
+  - platform: homeassistant
+    entity_id: weather.forecast_home
+    id: myPressure
+    attribute: "pressure"
+    internal: true
+
+  - platform: homeassistant
+    entity_id: sensor.battery_charge
+    id: myBattery
+    internal: true
+
+  - platform: homeassistant
+    entity_id: sensor.ewelink_th01_lounge_temperature
+    id: LoungeTemperature
+    internal: true
+
+  - platform: homeassistant
+    entity_id: sensor.ewelink_th01_lounge_humidity
+    id: LoungeHumidity
+    internal: true
+
+  - platform: homeassistant
+    entity_id: sensor.sun_next_rising
+    id: sunrise
+  
+  - platform: homeassistant
+    entity_id: sensor.sun_next_setting
+    id: sunset
+
+#Attributes
+#temperature: 8
+#dew_point: 6.9
+#temperature_unit: °C
+#humidity: 93
+#cloud_coverage: 36.7
+#uv_index: 0
+#pressure: 1005.1
+#pressure_unit: hPa
+#wind_bearing: 215.1
+#wind_speed: 15.1
+#wind_speed_unit: km/h
+#visibility_unit: km
+#precipitation_unit: mm
+#supported_features: 3
+
+#image:
+#  - file: mdi_weather_cloudy: "\U000F0590"
+#    id: alert
+#    resize: 120x120
+
+# https://tutoduino.fr/en/home-assistant-weather-reterminal-e1001/
+
+display:
+  - platform: rpi_dpi_rgb
+    id: main_display
+    color_order: RGB
+    invert_colors: True
+    auto_clear_enabled: false
+    update_interval: 30s
+    dimensions:
+      width: 800
+      height: 480
+    de_pin: 41
+    hsync_pin: 39
+    vsync_pin: 40
+    pclk_pin: 0
+    pclk_frequency: 20MHz
+    hsync_pulse_width: 48
+    hsync_front_porch: 40
+    hsync_back_porch: 40
+    vsync_pulse_width: 31
+    vsync_front_porch: 1
+    vsync_back_porch: 13
+    data_pins:
+      red:
+        - 14        #r1
+        - 21        #r2
+        - 47        #r3
+        - 48        #r4
+        - 45        #r5
+      green:
+        - 9         #g0
+        - 46        #g1
+        - 3         #g2
+        - 8         #g3
+        - 16        #g4
+        - 1         #g5
+      blue:
+        - 15        #b1
+        - 7         #b2
+        - 6         #b3
+        - 5         #b4
+        - 4         #b5
+    lambda: |-
+
+      auto black = Color(0, 0, 0);
+      auto red = Color(255, 0, 0);
+      auto green = Color(0, 255, 0);
+      auto blue = Color(0, 0, 255);
+      auto white = Color(255, 255, 255);
+
+
+      it.rectangle(10,  10, 200, 175, grey);
+      it.rectangle(220, 10, 360, 225, grey);
+      it.rectangle(590, 10, 200, 225, grey);
+
+      it.rectangle(10,  195, 200, 275, grey);
+      it.rectangle(220, 245, 360, 225, grey);
+      it.rectangle(590, 245, 200, 225, grey);
+      char buffer[25];
+      const char* icon;
+
+      std::string condition = id(myWeather).state;
+
+      if (condition == "sunny") {
+          icon = "\U000F0599"; 
+        } else if (condition == "partlycloudy") {
+          icon = "\U000F0595"; 
+        } else if (condition == "cloudy") {
+          icon = "\U000F0590"; 
+        } else if (condition == "rainy") {
+          icon = "\U000F0597"; 
+        } else if (condition == "snowy") {
+          icon = "\U000F0598"; 
+        } else if (condition == "pouring") {
+          icon = "\U000F0596";      
+        } else if (condition == "lightning") {
+          icon = "\U000F0593";      
+        } else if (condition == "clear-night") {
+          icon = "\U000F0594";
+        } else if (condition == "night-partlycloudy") {
+          icon = "\U000F0F31"; 
+        } else if (condition == "fog") {
+          icon = "\U000F0591"; 
+        } else if (condition == "hail") {
+          icon = "\U000F0592"; 
+        } else if (condition == "lightning-rainy") {
+          icon = "\U000F067E";         
+        } else if (condition == "snowy-rainy") {
+          icon = "\U000F0F35"; 
+        } else if (condition == "windy") {
+          icon = "\U000F059D"; 
+        } else if (condition == "windy-variant") {
+          icon = "\U000F059E"; 
+        } else if (condition == "exceptional") {
+          icon = "\U000F0F2F";
+        } else {
+          icon = "\U000F0F2F"; // default 
+        }
+
+      // Convert first character to uppercase
+      condition[0] = (char)toupper((unsigned char)condition[0]);
+      it.filled_rectangle(221, 11, 358, 223, COLOR_OFF);
+      it.printf(305, 20, id(myFont40), id(white), "%s", condition.c_str());
+      it.printf(225, 10, id(icon_font_70), id(white), icon); // 
+
+      std::vector<std::string> direction = {"N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"};   
+      int dir = atoi(id(myWindBearing).state.c_str()) / 22.5;
+      float windspeed = atoi((id(myWindspeed).state.c_str())) * 0.62137119;
+      it.printf(320, 100, id(myFont), id(white), "%.0fmph (%s)", windspeed, direction[dir].c_str()); 
+      it.printf(280, 110, id(icon_font_20), id(white), "\U000F059D"); // Windy
+
+      int pressure = atoi(id(myPressure).state.c_str());
+      it.printf(330, 170, id(myFont), id(white), "%d hpa", pressure); 
+      it.printf(290, 180, id(icon_font_20), id(white), "\U000F1442");
+
+      it.filled_rectangle(591, 11, 198, 223, COLOR_OFF);
+      it.printf(630, 11, id(myFont), id(white), "Outside");
+      it.printf(610, 70, id(myFont50), id(white), "%s°C", id(myTemperature).state.c_str());
+      it.printf(665, 45, id(icon_font_20), id(white), "\U000F050F"); // thermometer
+
+      it.printf(650, 170, id(myFont40), id(white), "%s%%", id(myHumidity).state.c_str()); 
+      it.printf(665, 140, id(icon_font_20), id(white), "\U000F058E"); // humidity
+
+
+      it.filled_rectangle(11, 196, 198, 264, COLOR_OFF);
+      it.printf(60, 205, id(myFont), id(white), "Battery");
+      it.printf(25, 300, id(myFont60), id(white), "%s%%", id(myBattery).state.c_str());   
+
+      if (atoi(id(myBattery).state.c_str()) <= 25) { it.printf(20, 215, id(icon_font_20), id(red), "\U000F12A1"); }  // Low Battery
+      else if (atoi(id(myBattery).state.c_str()) <= 50) { it.printf(20, 215, id(icon_font_20), id(yellow), "\U000F12A2");  } // Medium Battery 
+      else  { it.printf(20, 215, id(icon_font_20), id(green), "\U000F12A3"); } // High Battery 
+
+      it.filled_rectangle(221, 246, 358, 223, COLOR_OFF);
+      snprintf(buffer, sizeof(buffer), "%s:%s",
+               currenttime->now().strftime("%H").c_str(),
+               currenttime->now().strftime("%M").c_str());
+      it.printf(400, 300, id(myFont90), id(white), TextAlign::CENTER, "%s", buffer);
+      snprintf(buffer, sizeof(buffer), "%s",
+               currenttime->now().strftime("%A").c_str());
+      it.printf(400, 370, id(myFont40), id(white), TextAlign::CENTER, "%s", buffer);
+      snprintf(buffer, sizeof(buffer), "%s",
+               currenttime->now().strftime("%e-%b-%y").c_str());
+      it.printf(400, 435, id(myFont40), id(white), TextAlign::CENTER, "%s", buffer);
+
+      it.filled_rectangle(591, 246, 198, 223, COLOR_OFF);
+      it.printf(650, 245, id(myFont), id(white), "Inside");
+      it.printf(630, 305, id(myFont50), id(white), "%d°C", atoi(id(LoungeTemperature).state.c_str()));
+      it.printf(670, 280, id(icon_font_20), id(white), "\U000F050F"); // thermometer
+
+      it.printf(650, 405, id(myFont40), id(white), "%d%%", atoi(id(LoungeHumidity).state.c_str())); 
+      it.printf(670, 375, id(icon_font_20), id(white), "\U000F058E"); // humidity
+
+      it.filled_rectangle(11, 11, 198, 173, COLOR_OFF);
+      it.printf(70, 11, id(myFont), id(white), "Solar");
+      const char * Sunrise = (id(sunrise).state.c_str());
+      char tt[5] = {0};
+      char mm[3] = {0};
+      strncpy (tt, Sunrise + 11, 5);
+      it.printf(60, 50, id(myFont), id(white), " %s", tt);
+      it.printf(25, 58, id(icon_font_20), id(white), "\U000F059C"); // Sunrise
+      const char * Sunset = (id(sunset).state.c_str());
+      strncpy (tt, Sunset + 11, 5);
+      it.printf(60, 100, id(myFont), id(white), " %s", tt);
+      it.printf(25, 108, id(icon_font_20), id(white), "\U000F059B"); // Sunset
+      
+
+#  //See http://www.cplusplus.com/reference/ctime/strftime/
+#  //      it.fill(background);
+# 2025-11-15T06:47:45+00:00
+#      it.printf(630, 305, id(myFont50), id(red), "%d°C", atoi(id(LoungeTemperature).state.c_str()));
